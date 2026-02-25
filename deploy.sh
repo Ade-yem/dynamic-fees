@@ -1,0 +1,1 @@
+forge script script/DeployHook.s.sol --rpc-url $UNICHAIN_SEPOLIA_RPC_URL --chain-id $UNICHAIN_SEPOLIA_CHAIN_ID --broadcast
