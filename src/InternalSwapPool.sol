@@ -8,12 +8,12 @@ import {Currency, CurrencyLibrary} from "@uniswap/v4-core/src/types/Currency.sol
 import {PoolId, PoolIdLibrary} from "v4-core/types/PoolId.sol";
 import {PoolKey} from "v4-core/types/PoolKey.sol";
 import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
-import {PoolManager} from "v4-core/PoolManager.sol";
+// import {PoolManager} from "v4-core/PoolManager.sol";
 import {SwapParams, ModifyLiquidityParams} from "v4-core/types/PoolOperation.sol";
-import {BeforeSwapDelta, BeforeSwapDeltaLibrary, toBeforeSwapDelta} from "v4-core/types/BeforeSwapDelta.sol";
+import {BeforeSwapDelta, toBeforeSwapDelta} from "v4-core/types/BeforeSwapDelta.sol";
 import {StateLibrary} from "@uniswap/v4-core/src/libraries/StateLibrary.sol";
 import {CurrencySettler} from "@uniswap/v4-core/test/utils/CurrencySettler.sol";
-import {IERC20Minimal} from "@uniswap/v4-core/src/interfaces/external/IERC20Minimal.sol";
+// import {IERC20Minimal} from "@uniswap/v4-core/src/interfaces/external/IERC20Minimal.sol";
 import {LPFeeLibrary} from "v4-core/libraries/LPFeeLibrary.sol";
 import {BaseHook} from "../lib/v4-hooks-public/src/base/BaseHook.sol";
 
@@ -48,13 +48,13 @@ contract InternalSwapPool is BaseHook {
     // Minimum threshold for donations into the pool
     uint256 public constant DONATE_THRESHOLD_MIN = 0.0001 ether;
     // Native token address
-    address public immutable nativeToken;
+    address public immutable NATIVE_TOKEN;
 
     // mapping of fee claims to individual pool
     mapping(PoolId _poolId => ClaimableFees _fees) internal _poolFees;
 
-    constructor(IPoolManager _poolManager, address _nativeToken) BaseHook(_poolManager) {
-        nativeToken = _nativeToken;
+    constructor(IPoolManager _poolManager, address _NATIVE_TOKEN) BaseHook(_poolManager) {
+        NATIVE_TOKEN = _NATIVE_TOKEN;
     }
 
     /// Hook permission selector
@@ -211,7 +211,7 @@ contract InternalSwapPool is BaseHook {
 
     /// Deposit claimable fees from a swap operation to its respective pool
     /// @param _poolKey The key of the pool
-    /// @param _amount0 Amount of currency0 to deposit which is the nativeToken provided
+    /// @param _amount0 Amount of currency0 to deposit which is the NATIVE_TOKEN provided
     /// @param _amount1 Amount of currency1 to deposit
     function _depositFees(PoolKey calldata _poolKey, uint256 _amount0, uint256 _amount1) public {
         _poolFees[_poolKey.toId()].amount0 += _amount0;
